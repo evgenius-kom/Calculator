@@ -1,6 +1,6 @@
 #include <iostream>
-#include <map>
-#include <limits>
+#include <map> // std::map
+#include <limits> // std::numeric_limits
 #include <cmath>
 
 using namespace std;
@@ -23,29 +23,36 @@ enum class Token {
 	Invalid
 };
 
-template <class T> struct NumericTraits{};
+template <class T> 
+struct NumericTraits{};
 
-template <> struct NumericTraits <double> {
+template <> 
+struct NumericTraits <double> {
 	
 	static constexpr double min = numeric_limits<double>::min();
 	static constexpr double max = numeric_limits<double>::max();
 };
 
-template <> struct NumericTraits <int> {
+template <> 
+struct NumericTraits <int> {
 	
 	static constexpr int min = numeric_limits<int>::min();
 	static constexpr int max = numeric_limits<int>::max();
 };
 
-template <> struct NumericTraits <long> {
+template <> 
+struct NumericTraits <long> {
 	
 	static constexpr long min = numeric_limits<long>::min();
 	static constexpr long max = numeric_limits<long>::max();
 };
 
-template <class T> struct Parser {};
 
-template <> struct Parser <int> {
+template <class T> 
+struct Parser {};
+
+template <> 
+struct Parser <int> {
 
 	static int Get(const char*& input) {
   	
@@ -67,7 +74,8 @@ template <> struct Parser <int> {
 	}
 };
 
-template <> struct Parser <long> {
+template <> 
+struct Parser <long> {
 	
 	static long Get(const char*& input) {
 		
@@ -89,7 +97,8 @@ template <> struct Parser <long> {
 	}
 };
 
-template <> struct Parser <double> {
+template <> 
+struct Parser <double> {
 	
 	static double Get(const char*& input) {
 		
@@ -132,24 +141,26 @@ template <> struct Parser <double> {
 	}
 };
 
-template <class T> class Calculator {
+template <class T> 
+class Calculator {
 
-	public:
-	  	Calculator();
-	  	Calculator(const char*& input);
-	  	T expression();
-	  	int bracket_count;
+public:
+	Calculator();
+	Calculator(const char*& input);
+	T expression();
+	int bracket_count;
 	
-	private:
-	  	Token nextToken();
-	  	T primary();
-	  	T term();
-	  	
-	  	Token token;
-	  	const char* input;
+private:
+	Token nextToken();
+	T primary();
+	T term();
+	
+	Token token;
+	const char* input;
 };
 
-template <class T> Calculator<T>::Calculator() {
+template <class T> 
+Calculator<T>::Calculator() {
 	
 	input = nullptr;
 	token = Token::Null;
@@ -157,7 +168,8 @@ template <class T> Calculator<T>::Calculator() {
 	bracket_count = 0;
 }
 
-template <class T> Calculator<T>::Calculator(const char*& inp) {
+template <class T> 
+Calculator<T>::Calculator(const char*& inp) {
 	
 	token = Token::Null;
 	input = inp;
@@ -165,7 +177,8 @@ template <class T> Calculator<T>::Calculator(const char*& inp) {
 	bracket_count = 0;
 }
 
-template <class T> Token Calculator<T>::nextToken() {
+template <class T> 
+Token Calculator<T>::nextToken() {
 	
 	while (auto c = *input++) {
   		
@@ -206,7 +219,8 @@ template <class T> Token Calculator<T>::nextToken() {
   	return Token::End;
 }
 
-template <class T> T Calculator<T>::expression () {
+template <class T> 
+T Calculator<T>::expression () {
 	
 	T result = term();
 	
@@ -236,7 +250,8 @@ template <class T> T Calculator<T>::expression () {
 	return result;
 }
 
-template <class T> T Calculator<T>::term () {
+template <class T> 
+T Calculator<T>::term () {
 	
 	T result = primary();
 	
@@ -291,7 +306,8 @@ template <class T> T Calculator<T>::term () {
   	return result;
 }
 
-template <class T> T Calculator<T>::primary () {
+template <class T> 
+T Calculator<T>::primary () {
   	
 	token = nextToken();
   	
@@ -360,6 +376,7 @@ int main(int argc, char* argv[])
 	if (argc != 2) {
 		
 		cout << "Invalid input expression (argc)" << endl;
+		
 		return 1;
 	}
 
@@ -376,11 +393,13 @@ int main(int argc, char* argv[])
 		}
 
 		cout << result << endl;
+		
 		return 0;
   	}
 	catch (const char* s) {
   		
     		cout << s << endl;
+		
 		return 1;
 	}
 }
